@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--DEFAULT DIMENS-->
+    <dimen name="default_screen_margin">16dp</dimen>
+    <dimen name="default_screen_padding">16dp</dimen>
+    <dimen name="default_large_item_padding">6dp</dimen>
+    <dimen name="default_item_padding">4dp</dimen>
+    <dimen name="default_list_item_padding">2dp</dimen>
+    <dimen name="default_icon_size">24dp</dimen>
+    <dimen name="default_medium_icon_size">36dp</dimen>
+    <dimen name="default_large_icon_size">48dp</dimen>
+    <dimen name="default_app_bar_height">180dp</dimen>
+    <dimen name="default_fab_margin">16dp</dimen>
+    <dimen name="default_appbar_padding">8dp</dimen>
+
+    <!--CARDVIEW ITEM DIMENS-->
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_padding">8dp</dimen>
+    <dimen name="recipe_image_height">80dp</dimen>
+
+
+    <!--TEXT SIZES-->
+    <dimen name="title_text_size">18sp</dimen>
+    <dimen name="subtitle_text_size">14sp</dimen>
+    <dimen name="body_text_size">12sp</dimen>
+    <dimen name="small_text_size">10sp</dimen>
+
+    <!--EXOPLAYER DIMENS-->
+    <dimen name="button_size">100dp</dimen>
+    <dimen name="control_text_padding">4dp</dimen>
+    <dimen name="time_bar_height">26dp</dimen>
+
+
+    <dimen name="text_margin">16dp</dimen>
+
+
+</resources>

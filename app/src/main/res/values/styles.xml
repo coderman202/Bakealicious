@@ -1,0 +1,57 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--TEXT STYLES-->
+    <style name="TextTitleStyle" parent="@android:style/TextAppearance.Material.Large">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+
+    <style name="TextBodyStyle" parent="@android:style/TextAppearance.Material.Small">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="TextSubTitleStyle" parent="@android:style/TextAppearance.Material.Small">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
+    <style name="TextActionStyle" parent="@android:style/TextAppearance.Material.Small">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!--PLAYBACK CONTROLS STYLES-->
+    <style name="PlaybackControlTextStyle">
+        <item name="android:textColor">@color/controls_text_color</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/control_text_padding</item>
+        <item name="android:paddingEnd">@dimen/control_text_padding</item>
+    </style>
+
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+</resources>
