@@ -8,8 +8,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO (1) Add javadocs for all elements
-
+/**
+ * The type Recipe item.
+ */
 public class RecipeItem implements Parcelable {
 
 	@SerializedName("image")
@@ -30,58 +31,128 @@ public class RecipeItem implements Parcelable {
 	@SerializedName("steps")
 	private List<StepsItem> steps;
 
+	/**
+	 * Set image.
+	 *
+	 * @param image the image
+	 */
 	public void setImage(String image){
 		this.image = image;
 	}
 
+	/**
+	 * Get image string.
+	 *
+	 * @return the string
+	 */
 	public String getImage(){
 		return image;
 	}
 
+	/**
+	 * Set servings.
+	 *
+	 * @param servings the servings
+	 */
 	public void setServings(int servings){
 		this.servings = servings;
 	}
 
+	/**
+	 * Get servings int.
+	 *
+	 * @return the int
+	 */
 	public int getServings(){
 		return servings;
 	}
 
+	/**
+	 * Set name.
+	 *
+	 * @param name the name
+	 */
 	public void setName(String name){
 		this.name = name;
 	}
 
+	/**
+	 * Get name string.
+	 *
+	 * @return the string
+	 */
 	public String getName(){
 		return name;
 	}
 
+	/**
+	 * Set ingredients.
+	 *
+	 * @param ingredients the ingredients
+	 */
 	public void setIngredients(List<IngredientsItem> ingredients){
 		this.ingredients = ingredients;
 	}
 
+	/**
+	 * Get ingredients list.
+	 *
+	 * @return the list
+	 */
 	public List<IngredientsItem> getIngredients(){
 		return ingredients;
 	}
 
+	/**
+	 * Get ingredients count int.
+	 *
+	 * @return the int
+	 */
 	public int getIngredientsCount(){
 		return ingredients.size();
 	}
 
+	/**
+	 * Set id.
+	 *
+	 * @param id the id
+	 */
 	public void setId(int id){
 		this.id = id;
 	}
 
+	/**
+	 * Get id int.
+	 *
+	 * @return the int
+	 */
 	public int getId(){
 		return id;
 	}
 
+	/**
+	 * Set steps.
+	 *
+	 * @param steps the steps
+	 */
 	public void setSteps(List<StepsItem> steps){
 		this.steps = steps;
 	}
 
+	/**
+	 * Get steps list.
+	 *
+	 * @return the list
+	 */
 	public List<StepsItem> getSteps(){
 		return steps;
 	}
 
+	/**
+	 * Get steps count int.
+	 *
+	 * @return the int
+	 */
 	public int getStepsCount(){
 		return steps.size();
 	}
@@ -114,9 +185,17 @@ public class RecipeItem implements Parcelable {
 		dest.writeList(this.steps);
 	}
 
+	/**
+	 * Instantiates a new Recipe item.
+	 */
 	public RecipeItem() {
 	}
 
+	/**
+	 * Instantiates a new Recipe item.
+	 *
+	 * @param in the in
+	 */
 	protected RecipeItem(Parcel in) {
 		this.image = in.readString();
 		this.servings = in.readInt();
@@ -128,6 +207,9 @@ public class RecipeItem implements Parcelable {
 		in.readList(this.steps, StepsItem.class.getClassLoader());
 	}
 
+	/**
+	 * The constant CREATOR.
+	 */
 	public static final Parcelable.Creator<RecipeItem> CREATOR = new Parcelable.Creator<RecipeItem>() {
 		@Override
 		public RecipeItem createFromParcel(Parcel source) {

@@ -5,7 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-// TODO (3) Add javadocs for all elements
+/**
+ * The type Steps item.
+ */
 public class StepsItem implements Parcelable {
 
 	@SerializedName("videoURL")
@@ -23,42 +25,92 @@ public class StepsItem implements Parcelable {
 	@SerializedName("thumbnailURL")
 	private String thumbnailURL;
 
+	/**
+	 * Set video url.
+	 *
+	 * @param videoURL the video url
+	 */
 	public void setVideoURL(String videoURL){
 		this.videoURL = videoURL;
 	}
 
+	/**
+	 * Get video url string.
+	 *
+	 * @return the string
+	 */
 	public String getVideoURL(){
 		return videoURL;
 	}
 
+	/**
+	 * Set description.
+	 *
+	 * @param description the description
+	 */
 	public void setDescription(String description){
 		this.description = description;
 	}
 
+	/**
+	 * Get description string.
+	 *
+	 * @return the string
+	 */
 	public String getDescription(){
 		return description;
 	}
 
+	/**
+	 * Set id.
+	 *
+	 * @param id the id
+	 */
 	public void setId(int id){
 		this.id = id;
 	}
 
+	/**
+	 * Get id int.
+	 *
+	 * @return the int
+	 */
 	public int getId(){
 		return id;
 	}
 
+	/**
+	 * Set short description.
+	 *
+	 * @param shortDescription the short description
+	 */
 	public void setShortDescription(String shortDescription){
 		this.shortDescription = shortDescription;
 	}
 
+	/**
+	 * Get short description string.
+	 *
+	 * @return the string
+	 */
 	public String getShortDescription(){
 		return shortDescription;
 	}
 
+	/**
+	 * Set thumbnail url.
+	 *
+	 * @param thumbnailURL the thumbnail url
+	 */
 	public void setThumbnailURL(String thumbnailURL){
 		this.thumbnailURL = thumbnailURL;
 	}
 
+	/**
+	 * Get thumbnail url string.
+	 *
+	 * @return the string
+	 */
 	public String getThumbnailURL(){
 		return thumbnailURL;
 	}
@@ -89,9 +141,17 @@ public class StepsItem implements Parcelable {
 		dest.writeString(this.thumbnailURL);
 	}
 
+	/**
+	 * Instantiates a new Steps item.
+	 */
 	public StepsItem() {
 	}
 
+	/**
+	 * Instantiates a new Steps item.
+	 *
+	 * @param in the in
+	 */
 	protected StepsItem(Parcel in) {
 		this.videoURL = in.readString();
 		this.description = in.readString();
@@ -100,6 +160,9 @@ public class StepsItem implements Parcelable {
 		this.thumbnailURL = in.readString();
 	}
 
+	/**
+	 * The constant CREATOR.
+	 */
 	public static final Parcelable.Creator<StepsItem> CREATOR = new Parcelable.Creator<StepsItem>() {
 		@Override
 		public StepsItem createFromParcel(Parcel source) {

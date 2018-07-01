@@ -5,8 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-// TODO (2) Add javadocs for all elements
-
+/**
+ * The type Ingredients item.
+ */
 public class IngredientsItem implements Parcelable {
 
 	@SerializedName("quantity")
@@ -18,26 +19,56 @@ public class IngredientsItem implements Parcelable {
 	@SerializedName("ingredient")
 	private String ingredient;
 
+	/**
+	 * Set quantity.
+	 *
+	 * @param quantity the quantity
+	 */
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
 	}
 
+	/**
+	 * Get quantity double.
+	 *
+	 * @return the double
+	 */
 	public double getQuantity(){
 		return quantity;
 	}
 
+	/**
+	 * Set measure.
+	 *
+	 * @param measure the measure
+	 */
 	public void setMeasure(String measure){
 		this.measure = measure;
 	}
 
+	/**
+	 * Get measure string.
+	 *
+	 * @return the string
+	 */
 	public String getMeasure(){
 		return measure;
 	}
 
+	/**
+	 * Set ingredient.
+	 *
+	 * @param ingredient the ingredient
+	 */
 	public void setIngredient(String ingredient){
 		this.ingredient = ingredient;
 	}
 
+	/**
+	 * Get ingredient string.
+	 *
+	 * @return the string
+	 */
 	public String getIngredient(){
 		return ingredient;
 	}
@@ -64,15 +95,26 @@ public class IngredientsItem implements Parcelable {
 		dest.writeString(this.ingredient);
 	}
 
+	/**
+	 * Instantiates a new Ingredients item.
+	 */
 	public IngredientsItem() {
 	}
 
+	/**
+	 * Instantiates a new Ingredients item.
+	 *
+	 * @param in the in
+	 */
 	protected IngredientsItem(Parcel in) {
 		this.quantity = in.readDouble();
 		this.measure = in.readString();
 		this.ingredient = in.readString();
 	}
 
+	/**
+	 * The constant CREATOR.
+	 */
 	public static final Parcelable.Creator<IngredientsItem> CREATOR = new Parcelable.Creator<IngredientsItem>() {
 		@Override
 		public IngredientsItem createFromParcel(Parcel source) {
