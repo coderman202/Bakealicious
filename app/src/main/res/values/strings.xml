@@ -39,6 +39,10 @@
     <!--CONTENT DESCRIPTION STRINGS-->
     <string name="recipe_image_description">Image of the recipe.</string>
     <string name="view_step_button_description">Press button to view more information on this step.</string>
+    <string name="play_button_description">Press to play video.</string>
+    <string name="pause_button_description">Press to pause video.</string>
+    <string name="expand_fullscreen_button_description">Press to show fullscreen mode.</string>
+    <string name="shrink_fullscreen_button_description">Press to shrink back to normal size.</string>
 
 
     <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
@@ -46,4 +50,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_steps">StepsActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_stepsitem_list">StepsItems</string>
+    <string name="title_stepsitem_detail">StepsItem Detail</string>
 </resources>

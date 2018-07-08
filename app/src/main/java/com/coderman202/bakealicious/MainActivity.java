@@ -1,14 +1,19 @@
 package com.coderman202.bakealicious;
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.coderman202.bakealicious.adapters.RecipeListAdapter;
 import com.coderman202.bakealicious.builders.ApiUrlBuilder;
+import com.coderman202.bakealicious.idling_resource.SimpleIdlingResource;
 import com.coderman202.bakealicious.interfaces.RecipeDataInterface;
 import com.coderman202.bakealicious.model.RecipeItem;
 
@@ -37,6 +42,23 @@ public class MainActivity extends AppCompatActivity {
     // Key for saving the scroll position of the RecyclerView.
     public static final String BUNDLE_RECYCLER_LAYOUT_KEY = "RecyclerView Layout";
 
+    //Testing code
+    // The Idling Resource which will be null in production.
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    /**
+     * Only called from test, creates and returns a new {@link SimpleIdlingResource}.
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource(this.getClass().getName());
+        }
+        return mIdlingResource;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +69,20 @@ public class MainActivity extends AppCompatActivity {
 
         initRecyclerView();
         loadRecipeList();
+    }
+
+    // Handling screen rotations.
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT_KEY, recipeListLayoutManager.onSaveInstanceState());
+    }
+
+    // Handling screen rotations.
+    @Override
+    public void onRestoreInstanceState(Bundle inState){
+        Parcelable savedRecyclerLayoutState = inState.getParcelable(BUNDLE_RECYCLER_LAYOUT_KEY);
+        recipeListLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
     }
 
     /**
@@ -81,13 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadRecipeList(){
-        Log.e(LOG_TAG, "LoadRecipeList");
 
         try{
             RecipeDataInterface recipeDataInterface =
                     ApiUrlBuilder.getRetrofitClient(this).create(RecipeDataInterface.class);
-
-            Log.e(LOG_TAG, recipeDataInterface.toString());
 
             final List<RecipeItem> recipeItemList = new ArrayList<>();
 
@@ -97,9 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<RecipeItem>> call, Response<List<RecipeItem>> response) {
                     if(response.isSuccessful()){
-                        Log.e(LOG_TAG, "Response Length: " + response.body().toString());
                         recipeItemList.addAll(response.body());
-                        Log.e(LOG_TAG, recipeItemList.toString());
                         recipeListAdapter.setRecipeList(recipeItemList);
                     }
                 }
@@ -107,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<List<RecipeItem>> call, Throwable t) {
                     t.printStackTrace();
-                    Log.e(LOG_TAG, "Fail");
-
                 }
             });
 
@@ -116,6 +145,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
 }

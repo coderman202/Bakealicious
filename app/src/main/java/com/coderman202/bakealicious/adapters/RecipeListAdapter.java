@@ -91,7 +91,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
         holder.recipeCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(LOG_TAG, "Test");
+                Intent intent = new Intent(context, RecipeDetailsActivity.class);
+                intent.putExtra(RECIPE_ITEM_KEY, recipeItem);
+                context.startActivity(intent);
             }
         });
 

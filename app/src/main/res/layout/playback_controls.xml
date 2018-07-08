@@ -5,14 +5,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="@color/controls_background_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/default_screen_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_margin="@dimen/default_screen_margin"
         android:orientation="horizontal">
 
         <ImageButton
@@ -21,7 +22,10 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center"
             android:tint="@color/play_button_tint"
-            style="@style/ExoMediaButton.Play" />
+            android:background="@color/controls_background_color"
+            android:layout_margin="@dimen/default_screen_margin"
+            style="@style/ExoMediaButton.Play"
+            android:contentDescription="@string/play_button_description"/>
 
         <ImageButton
             android:id="@id/exo_pause"
@@ -30,15 +34,19 @@
             android:layout_gravity="center"
             android:tint="@color/pause_button_tint"
             style="@style/ExoMediaButton.Pause"
-            android:visibility="gone"/>
+            android:background="@color/controls_background_color"
+            android:layout_margin="@dimen/default_screen_margin"
+            android:visibility="gone"
+            android:contentDescription="@string/pause_button_description"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_item_padding"
-        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/default_screen_margin"
+        android:gravity="bottom|center_vertical"
+        android:background="@color/controls_background_color"
         android:orientation="horizontal">
 
         <TextView
@@ -55,8 +63,30 @@
             style="@style/PlaybackControlTextStyle"
             android:id="@id/exo_duration" />
 
+        <FrameLayout
+            android:id="@+id/exo_fullscreen_toggle"
+            android:layout_width="@dimen/fullscreen_toggle_size"
+            android:layout_height="@dimen/fullscreen_toggle_size"
+            android:paddingStart="@dimen/default_item_padding"
+            android:paddingEnd="@dimen/default_item_padding"
+            android:background="@color/controls_background_color"
+            android:layout_gravity="end">
+
+            <ImageView
+                android:id="@+id/exo_fullscreen"
+                style="@style/ExoMediaButton.FullScreenIcon"
+                android:src="@drawable/fullscreen_expand"
+                android:contentDescription="@string/expand_fullscreen_button_description"/>
+
+            <ImageView
+                android:id="@+id/exo_shrink"
+                style="@style/ExoMediaButton.FullScreenIcon"
+                android:src="@drawable/fullscreen_exit"
+                android:visibility="gone"
+                android:contentDescription="@string/shrink_fullscreen_button_description"/>
+
+        </FrameLayout>
+
     </LinearLayout>
-
-
 
 </LinearLayout>

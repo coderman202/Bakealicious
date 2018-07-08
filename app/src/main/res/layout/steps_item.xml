@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/default_item_padding"
     android:paddingBottom="@dimen/default_item_padding"
+    android:id="@+id/step_list_item"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView

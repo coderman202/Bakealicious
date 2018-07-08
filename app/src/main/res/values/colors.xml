@@ -16,13 +16,14 @@
     <!--Text colours-->
     <color name="color_light_text">#FFEBEE</color>
     <color name="color_dark_text">#212121</color>
+    <color name="color_white_text">#FFFFFF</color>
 
     <!--Playback control colours-->
     <color name="controls_background_color">#CC000000</color>
     <color name="play_button_tint">@color/colorSecondaryLight</color>
     <color name="pause_button_tint">@color/colorPrimaryLight</color>
     <color name="controls_text_color">#cca2a2a2</color>
-
+    <color name="thumb_placeholder_color">#BDBDBD</color>
 
 
 

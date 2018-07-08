@@ -1,10 +1,15 @@
 package com.coderman202.bakealicious.fragments;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -12,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coderman202.bakealicious.R;
@@ -33,12 +39,14 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class StepFragment extends Fragment{
+public class StepFragment extends Fragment implements View.OnClickListener{
 
     private static final String LOG_TAG = StepFragment.class.getSimpleName();
 
     private StepsItem stepsItem;
-    private static final String STEP_ITEM = "step_item";
+    private static final String STEP_ITEM_KEY = "step_item";
+    private static final String STEP_POSITION_KEY = "step_position";
+    private int stepPosition;
 
     // All media player variables.
     private static MediaSessionCompat mediaSession;
@@ -63,6 +71,13 @@ public class StepFragment extends Fragment{
 
     @BindView(R.id.step_description) TextView stepDescView;
     @BindView(R.id.video_player) PlayerView stepVideoPlayer;
+    @BindView(R.id.exo_fullscreen) ImageView fullScreenExpandButton;
+    @BindView(R.id.exo_shrink) ImageView fullScreenShrinkButton;
+
+    Dialog fullScreenDialog;
+    private boolean isPlayerFullScreen = false;
+
+    @BindView(R.id.step_player_layout) ConstraintLayout stepPlayerLayout;
 
 
     /**
@@ -86,13 +101,13 @@ public class StepFragment extends Fragment{
         ButterKnife.bind(this, rootView);
 
         if(savedInstanceState != null){
-            stepsItem = savedInstanceState.getParcelable(STEP_ITEM);
+            stepsItem = savedInstanceState.getParcelable(STEP_ITEM_KEY);
             playReady = savedInstanceState.getBoolean(PLAY_READY);
             playPosition = savedInstanceState.getLong(PLAYBACK_POSITION);
             currentWindow = savedInstanceState.getInt(CURRENT_WINDOW);
         }
         else{
-            stepsItem = getArguments().getParcelable(STEP_ITEM);
+            stepsItem = getArguments().getParcelable(STEP_ITEM_KEY);
             currentWindow = 0;
             playPosition = 0L;
         }
@@ -105,6 +120,11 @@ public class StepFragment extends Fragment{
     }
 
     private void initPlayer(){
+        String videoUrl = stepsItem.getVideoURL();
+
+        Bitmap placeholder = BitmapFactory.decodeResource(context.getResources(), R.drawable.thumb_placeholder);
+        stepVideoPlayer.setDefaultArtwork(placeholder);
+
         renderersFactory = new DefaultRenderersFactory(context);
         trackSelector = new DefaultTrackSelector();
         loadControl = new DefaultLoadControl();
@@ -112,27 +132,81 @@ public class StepFragment extends Fragment{
         stepVideoPlayer.setPlayer(exoPlayer);
         exoPlayer.setPlayWhenReady(playReady);
         exoPlayer.seekTo(playPosition);
-        String videoUrl = stepsItem.getVideoURL();
+
         Log.e(LOG_TAG, videoUrl);
         Uri videoUri = Uri.parse(videoUrl).buildUpon().build();
 
-        if ((videoUri != null) && (!videoUrl.equals(""))) {
+        if ((videoUri != null) && (!videoUri.toString().equals(""))) {
             buildMediaSource(videoUri);
             Log.e(LOG_TAG, "Uri: " + videoUri.toString());
             exoPlayer.prepare(mediaSource, true, false);
+            initFullscreenDialog();
         }
         else {
             Log.e(LOG_TAG, "No URL :(");
         }
     }
 
+    /**
+     * Set up the full screen mode for the video player.
+     * Override the back button so it will close the dialog on back pressed.
+     */
+    private void initFullscreenDialog() {
+
+        fullScreenDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (isPlayerFullScreen)
+                    closeFullscreenDialog();
+                super.onBackPressed();
+            }
+        };
+    }
+
+    private void openFullscreenDialog() {
+
+        stepPlayerLayout.removeView(stepVideoPlayer);
+        fullScreenDialog.addContentView(stepVideoPlayer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        isPlayerFullScreen = true;
+        fullScreenDialog.show();
+    }
+
+    private void closeFullscreenDialog() {
+
+        ((ViewGroup) stepVideoPlayer.getParent()).removeView(stepVideoPlayer);
+        stepPlayerLayout.addView(stepVideoPlayer);
+        isPlayerFullScreen = false;
+        fullScreenDialog.dismiss();
+    }
+
+
+
     @Override
-    public void onSaveInstanceState(Bundle savedState){
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.exo_fullscreen:
+                fullScreenExpandButton.setVisibility(View.GONE);
+                fullScreenShrinkButton.setVisibility(View.VISIBLE);
+                openFullscreenDialog();
+                isPlayerFullScreen = true;
+                break;
+            case R.id.exo_shrink:
+                fullScreenExpandButton.setVisibility(View.VISIBLE);
+                fullScreenShrinkButton.setVisibility(View.GONE);
+                closeFullscreenDialog();
+                isPlayerFullScreen = false;
+                break;
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedState){
         super.onSaveInstanceState(savedState);
         savedState.putInt(CURRENT_WINDOW, currentWindow);
         savedState.putBoolean(PLAY_READY, playReady);
         savedState.putLong(PLAYBACK_POSITION, playPosition);
-        savedState.putParcelable(STEP_ITEM, stepsItem);
+        savedState.putParcelable(STEP_ITEM_KEY, stepsItem);
     }
 
     @Override
@@ -191,7 +265,7 @@ public class StepFragment extends Fragment{
     private void buildMediaSource(Uri uri) {
         String appName = context.getString(R.string.app_name);
         String userAgent = Util.getUserAgent(context, appName);
-        dataSourceFactory = new DefaultDataSourceFactory(getContext(), userAgent);
+        dataSourceFactory = new DefaultDataSourceFactory(context, userAgent);
         mediaSourceFactory = new ExtractorMediaSource.Factory(dataSourceFactory);
         mediaSource = mediaSourceFactory.createMediaSource(uri);
     }

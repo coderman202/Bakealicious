@@ -1,5 +1,6 @@
 package com.coderman202.bakealicious;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -7,9 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 
 import com.coderman202.bakealicious.adapters.StepPagerAdapter;
 import com.coderman202.bakealicious.model.RecipeItem;
@@ -19,10 +18,10 @@ import butterknife.ButterKnife;
 
 public class StepsActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = StepsActivity.class.getSimpleName();
 
-    // Step
-    private static final String RECIPE_ITEM_KEY = "Recipe1";
-    private static final String STEP_POSITION_KEY = "Position_key";
+    private static final String RECIPE_ITEM_KEY = "recipe_item";
+    private static final String STEP_POSITION_KEY = "position_key";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,8 +36,8 @@ public class StepsActivity extends AppCompatActivity {
     FragmentManager stepFragmentManager;
 
     private RecipeItem recipeItem;
+    private int stepPosition;
 
-    @BindView(R.id.step_toolbar) Toolbar stepToolbar;
     ActionBar stepActionBar;
 
     /**
@@ -56,11 +55,11 @@ public class StepsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         recipeItem = getIntent().getParcelableExtra(RECIPE_ITEM_KEY);
+        stepPosition = getIntent().getIntExtra(STEP_POSITION_KEY, 0);
 
         initAppBar();
         initStepViewPager();
     }
-
 
     // Create the adapter that will return a fragment for each of the three
     // primary sections of the activity.
@@ -69,34 +68,20 @@ public class StepsActivity extends AppCompatActivity {
         stepPagerAdapter = new StepPagerAdapter(stepFragmentManager, recipeItem);
         stepViewPager.setAdapter(stepPagerAdapter);
         stepTabLayout.setupWithViewPager(stepViewPager);
+        stepViewPager.setCurrentItem(stepPosition);
     }
 
     private void initAppBar() {
-        setSupportActionBar(stepToolbar);
         stepActionBar = getSupportActionBar();
         stepActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_steps, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed(){
+        Log.e(LOG_TAG, "hey");
+        Intent intent = new Intent();
+        intent.putExtra(RECIPE_ITEM_KEY, recipeItem);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

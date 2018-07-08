@@ -51,6 +51,9 @@ public class StepPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position){
+        if(position == 0 ){
+            return "Intro";
+        }
         return "Step " + position;
     }
 }
